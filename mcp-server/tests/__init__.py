@@ -1,0 +1,1 @@
+"""Tests for YAML Context Engineering MCP Server."""

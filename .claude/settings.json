@@ -1,0 +1,98 @@
+{
+  "name": "yaml-context-engineering",
+  "version": "1.0.0",
+  "description": "YAML Context Engineering Agent for hierarchical content extraction",
+  "mcp": {
+    "server": {
+      "command": "python",
+      "args": ["-m", "yaml_context_engineering.main"],
+      "cwd": "mcp-server",
+      "env": {
+        "MCP_LOG_LEVEL": "INFO",
+        "MCP_OUTPUT_DIRECTORY": "generated_contexts"
+      }
+    }
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo '[$(date \"+%Y-%m-%d %H:%M:%S\")] Executing: $TOOL_INPUT' >> ~/.claude/yaml-context-engineering.log"
+          }
+        ]
+      },
+      {
+        "matcher": "Write",
+        "hooks": [
+          {
+            "type": "command", 
+            "command": "echo '[$(date \"+%Y-%m-%d %H:%M:%S\")] Writing to: $FILE_PATH' >> ~/.claude/yaml-context-engineering.log"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo '[$(date \"+%Y-%m-%d %H:%M:%S\")] Modified: $FILE_PATH' >> ~/.claude/yaml-context-engineering.log"
+          }
+        ]
+      }
+    ],
+    "Notification": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "osascript -e 'display notification \"YAML Context Engineering: Task requires attention\" with title \"Claude Code\"'"
+          }
+        ]
+      }
+    ]
+  },
+  "tools": {
+    "enabled": [
+      "WebFetch",
+      "Read", 
+      "Write",
+      "Edit",
+      "MultiEdit",
+      "Bash",
+      "Grep",
+      "Glob",
+      "LS",
+      "TodoWrite",
+      "WebSearch"
+    ]
+  },
+  "sub_agents": {
+    "context-extractor": {
+      "file": "agents/context-extractor.md",
+      "enabled": true
+    },
+    "quality-analyzer": {
+      "file": "agents/quality-analyzer.md", 
+      "enabled": true
+    }
+  },
+  "slash_commands": {
+    "extract-context": {
+      "file": "commands/extract-context.md",
+      "enabled": true
+    },
+    "setup-project": {
+      "file": "commands/setup-project.md",
+      "enabled": true
+    },
+    "generate-agent": {
+      "file": "commands/generate-agent.md",
+      "enabled": true
+    }
+  }
+}

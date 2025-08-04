@@ -26,17 +26,55 @@ node_modules/
 venv/
 __pycache__/
 *.pyc
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+ENV/
+.venv
 
 # Build outputs
 dist/
 build/
 *.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+develop-eggs/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
 
 # Test coverage
 coverage/
 .coverage
 htmlcov/
+*.cover
+.hypothesis/
+.pytest_cache/
 
 # Temporary files
 tmp/
 temp/
+*.tmp
+*.temp
+.tmp/
+.temp/
+
+# Project specific
+generated_contexts/*
+!generated_contexts/.gitkeep
+*.cache
+package-lock.json
+yarn.lock
+
+# Documentation build
+docs/_build/
+docs/.doctrees/

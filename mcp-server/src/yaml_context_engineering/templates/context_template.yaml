@@ -1,0 +1,42 @@
+# YAML Context Template
+# This template defines the structure for extracted context files
+
+# Required fields
+title: "{{title}}"
+source_url: "{{source_url}}"
+last_updated: "{{last_updated}}"
+content_type: "{{content_type}}"
+language: "{{language}}"
+extraction_confidence: {{extraction_confidence}}
+agent_version: "{{agent_version}}"
+extracted_by: "{{extracted_by}}"
+extraction_timestamp: "{{extraction_timestamp}}"
+
+# Hierarchy information
+hierarchy_levels: {{hierarchy_levels}}
+
+# Related content
+related_sources: {{related_sources}}
+
+# Categorization
+tags: {{tags}}
+
+# Optional metadata
+metadata:
+  word_count: {{word_count}}
+  reading_time_minutes: {{reading_time_minutes}}
+  primary_topic: "{{primary_topic}}"
+  technical_level: "{{technical_level}}"
+
+# Quality metrics
+quality_assessment:
+  completeness_score: {{completeness_score}}
+  structure_score: {{structure_score}}
+  readability_score: {{readability_score}}
+
+# Extraction details
+extraction_details:
+  format_detected: "{{format_detected}}"
+  total_headings: {{total_headings}}
+  extraction_method: "{{extraction_method}}"
+  processing_time_seconds: {{processing_time_seconds}}

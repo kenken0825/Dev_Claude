@@ -1,0 +1,92 @@
+# Cursor IDE Rules for YAML Context Engineering Agent Project
+
+## Project Overview
+This is the YAML Context Engineering Agent project - an MCP server that extracts hierarchical context from various sources and generates YAML-formatted documentation.
+
+## Code Style Guidelines
+
+### Python
+- Use Python 3.9+ features
+- Follow PEP 8 style guide
+- Use type hints for all function parameters and returns
+- Prefer async/await for I/O operations
+- Use dataclasses for configuration objects
+
+### Imports
+- Group imports: standard library, third-party, local
+- Use absolute imports for project modules
+- Sort imports alphabetically within groups
+
+### Naming Conventions
+- Classes: PascalCase
+- Functions/methods: snake_case
+- Constants: UPPER_SNAKE_CASE
+- Private methods: _leading_underscore
+
+## Project Structure
+```
+Dev_Claude/
+├── mcp-server/           # MCP server implementation
+│   ├── src/             # Source code
+│   ├── tests/           # Test files
+│   └── docs/            # Documentation
+├── .claude/             # Claude Code configuration
+├── generated_contexts/  # Output directory
+└── PLANNING.md         # Project planning
+```
+
+## Key Technologies
+- MCP (Model Context Protocol) for AI tool integration
+- aiohttp for async web requests
+- BeautifulSoup4 for HTML parsing
+- PyYAML for YAML processing
+- pytest for testing
+- structlog for structured logging
+
+## Development Commands
+```bash
+# Install dependencies
+cd mcp-server && pip install -r requirements.txt
+
+# Run tests
+pytest
+
+# Start MCP server
+python -m yaml_context_engineering.main
+```
+
+## Testing Guidelines
+- Write tests for all new functionality
+- Use pytest fixtures for common test data
+- Mock external dependencies (web requests, file I/O)
+- Aim for >80% test coverage
+
+## Error Handling
+- Always use try-except blocks for I/O operations
+- Log errors with appropriate context
+- Return meaningful error messages to users
+- Never expose sensitive information in errors
+
+## Documentation
+- Document all public functions with docstrings
+- Include type hints in function signatures
+- Update API.md for any tool changes
+- Keep README.md current with new features
+
+## Git Workflow
+- Create feature branches for new work
+- Write descriptive commit messages
+- Test before committing
+- Update PLANNING.md task status
+
+## Performance Considerations
+- Use connection pooling for HTTP requests
+- Implement caching where appropriate
+- Limit concurrent operations
+- Monitor memory usage for large content
+
+## Security
+- Sanitize all file paths
+- Validate URLs before fetching
+- Never execute arbitrary code
+- Follow principle of least privilege
