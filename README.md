@@ -73,6 +73,11 @@ pip install -r requirements.txt
 pip install -e .
 ```
 
+5. LDDシステムの初期化（オプション）
+```bash
+yaml-context ldd init
+```
+
 ## 使用方法
 
 ### Claude Codeでの使用（推奨）
@@ -118,6 +123,9 @@ Claude Codeのタスク実行中に関連URLを自動発見
 ### 4. file_system_manager
 Claude Codeのワークスペース内でファイル管理
 
+### 5. ldd_manager
+Log-Driven Development (LDD) システムでタスク管理とナレッジ蓄積
+
 これらのツールはClaude Code内で `mcp__yaml-context-engineering__` プレフィックスで利用可能です。
 
 詳細は[docs/API.md](mcp-server/docs/API.md)を参照。
@@ -150,6 +158,51 @@ tags: []
 # コンテンツ
 
 Claude Codeが参照しやすい階層的に整理されたコンテンツ...
+```
+
+## LDD (Log-Driven Development) システム
+
+YAML Context Engineeringには、タスク管理とナレッジ蓄積のためのLDDシステムが統合されています。
+
+### LDDの主な機能
+
+- **📝 タスクログ管理**: コンテキスト抽出タスクの詳細な記録
+- **🧠 メモリバンク**: 抽出パターンや洞察の永続化
+- **📊 パターン分析**: 成功・失敗パターンの自動分析
+- **🔍 知識検索**: 蓄積された知識の効率的な検索
+
+### LDDコマンド
+
+```bash
+# LDDシステムの初期化
+yaml-context ldd init
+
+# タスクログの作成
+yaml-context ldd task "APIドキュメントの抽出" -p "my-project" -m "api-docs"
+
+# メモリバンクへの追加
+yaml-context ldd memory "効率的な抽出パターンを発見" -t Pattern --tags "optimization,extraction"
+
+# タスクの更新（開発中）
+yaml-context ldd task update <task-id> --status "Completed"
+
+# メモリの検索（開発中）
+yaml-context ldd memory search "extraction pattern"
+
+# パターン分析（開発中）
+yaml-context ldd analyze
+```
+
+### LDDディレクトリ構造
+
+```
+generated_contexts/
+├── logs/                      # タスクログ
+│   ├── tasks/                # タスク実行ログ
+│   ├── system/               # システムログ
+│   └── metrics/              # メトリクス
+├── @memory-bank.md           # メモリバンク（知識DB）
+└── @logging_template.md      # ログテンプレート
 ```
 
 ## 開発

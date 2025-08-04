@@ -13,10 +13,13 @@ from .utils.logging import console, setup_logging
 
 @click.group()
 @click.option('--verbose', is_flag=True, help='Enable verbose output')
-def cli(verbose: bool) -> None:
+@click.pass_context
+def cli(ctx: click.Context, verbose: bool) -> None:
     """YAML Context Engineering CLI."""
     log_level = "DEBUG" if verbose else "INFO"
     setup_logging(log_level, structured=False)
+    ctx.ensure_object(dict)
+    ctx.obj['verbose'] = verbose
 
 
 @cli.command()
@@ -161,6 +164,144 @@ def generate_analysis_report(structure: dict) -> str:
                 report += f"- {term}\n"
     
     return report
+
+
+@cli.group()
+def ldd() -> None:
+    """LDD (Log-Driven Development) commands."""
+    pass
+
+
+@ldd.command('init')
+@click.option('--logs-dir', default='./logs', help='Logs directory')
+@click.option('--memory-bank', default='./@memory-bank.md', help='Memory bank file path')
+@click.pass_context
+async def ldd_init(ctx: click.Context, logs_dir: str, memory_bank: str) -> None:
+    """Initialize LDD system."""
+    from .ldd import LDDConfig, LoggingEngine, MemoryBank
+    
+    try:
+        console.info("🚀 Initializing LDD system...")
+        
+        # Create LDD config
+        config = LDDConfig(
+            logsDir=logs_dir,
+            memoryBankPath=memory_bank
+        )
+        
+        # Initialize components
+        logging_engine = LoggingEngine(config)
+        memory_bank_obj = MemoryBank(config)
+        
+        # Save config
+        import json
+        with open('.ldd-config.json', 'w') as f:
+            json.dump({
+                'logsDir': config.logsDir,
+                'memoryBankPath': config.memoryBankPath,
+                'templatePath': config.templatePath,
+                'enableAutoLogging': config.enableAutoLogging
+            }, f, indent=2)
+        
+        console.success("✅ LDD system initialized successfully!")
+        console.info(f"  Logs directory: {logs_dir}")
+        console.info(f"  Memory bank: {memory_bank}")
+        
+    except Exception as e:
+        console.error(f"❌ Failed to initialize LDD system: {e}")
+        sys.exit(1)
+
+
+@ldd.command('task')
+@click.argument('task_name')
+@click.option('-a', '--agent', default='yaml-context-agent', help='Agent name')
+@click.option('-p', '--project', help='Project name')
+@click.option('-m', '--module', help='Module/component name')
+@click.pass_context
+async def ldd_task(ctx: click.Context, task_name: str, agent: str, 
+                   project: Optional[str], module: Optional[str]) -> None:
+    """Create a new task log."""
+    from .ldd import LDDConfig, LoggingEngine
+    import json
+    
+    try:
+        # Load config
+        if Path('.ldd-config.json').exists():
+            with open('.ldd-config.json', 'r') as f:
+                config_data = json.load(f)
+                config = LDDConfig(**config_data)
+        else:
+            config = LDDConfig()
+        
+        logging_engine = LoggingEngine(config)
+        
+        # Create task
+        context = {}
+        if project:
+            context['project'] = project
+        if module:
+            context['module'] = module
+        
+        log_entry = await logging_engine.create_task_log({
+            'taskName': task_name,
+            'agent': agent,
+            'context': context,
+            'status': 'Initiated'
+        })
+        
+        console.success(f"✅ Task log created: {log_entry['id']}")
+        console.info(f"  Task: {task_name}")
+        console.info(f"  Status: {log_entry['status']}")
+        console.info(f"  Agent: {log_entry['agent']}")
+        
+    except Exception as e:
+        console.error(f"❌ Failed to create task log: {e}")
+        sys.exit(1)
+
+
+@ldd.command('memory')
+@click.argument('description')
+@click.option('-t', '--type', default='Learning', help='Entry type')
+@click.option('-a', '--agent', default='yaml-context-agent', help='Agent name')
+@click.option('--tags', help='Comma-separated tags')
+@click.pass_context
+async def ldd_memory(ctx: click.Context, description: str, type: str, 
+                    agent: str, tags: Optional[str]) -> None:
+    """Add entry to memory bank."""
+    from .ldd import LDDConfig, MemoryBank
+    import json
+    
+    try:
+        # Load config
+        if Path('.ldd-config.json').exists():
+            with open('.ldd-config.json', 'r') as f:
+                config_data = json.load(f)
+                config = LDDConfig(**config_data)
+        else:
+            config = LDDConfig()
+        
+        memory_bank = MemoryBank(config)
+        await memory_bank.initialize()
+        
+        # Create memory entry
+        entry = await memory_bank.append_entry({
+            'type': type,
+            'agent': agent,
+            'details': {
+                'description': description,
+                'insights': [],
+                'impact': 'To be determined'
+            },
+            'tags': tags.split(',') if tags else []
+        })
+        
+        console.success(f"✅ Memory entry added: {entry['id']}")
+        console.info(f"  Type: {entry['type']}")
+        console.info(f"  Agent: {entry['agent']}")
+        
+    except Exception as e:
+        console.error(f"❌ Failed to add memory entry: {e}")
+        sys.exit(1)
 
 
 def main() -> None:

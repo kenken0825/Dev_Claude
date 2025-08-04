@@ -8,7 +8,6 @@ from pathlib import Path
 
 from yaml_context_engineering.server import YamlContextServer
 from yaml_context_engineering.config import Config
-from mcp.server.models import ToolResult
 
 
 class TestYamlContextServer:
@@ -27,14 +26,30 @@ class TestYamlContextServer:
         assert server.structure_extractor is not None
         assert server.url_discovery is not None
         assert server.file_manager is not None
+        assert server.ldd_manager is not None
     
     @pytest.mark.asyncio
-    async def test_tool_registration(self, server):
-        """Test that all tools are registered."""
-        # Check internal tool registration
-        # Note: This is a simplified test as MCP server internals are not directly accessible
-        assert hasattr(server, '_register_tools')
-        assert hasattr(server, '_setup_handlers')
+    async def test_list_tools_handler(self, server):
+        """Test list_tools handler returns all tools."""
+        # Get the list_tools handler
+        list_tools_handler = None
+        for handler_name, handler in server.server.request_handlers.items():
+            if handler_name == "tools/list":
+                list_tools_handler = handler
+                break
+        
+        assert list_tools_handler is not None
+        
+        # Call the handler
+        tools = await list_tools_handler()
+        
+        assert len(tools) == 5  # 5 tools including ldd_manager
+        tool_names = [tool.name for tool in tools]
+        assert "web_content_fetcher" in tool_names
+        assert "llm_structure_extractor" in tool_names
+        assert "url_discovery_engine" in tool_names
+        assert "file_system_manager" in tool_names
+        assert "ldd_manager" in tool_names
     
     @pytest.mark.asyncio
     async def test_web_content_fetcher_tool(self, server):
@@ -50,16 +65,22 @@ class TestYamlContextServer:
         ]
         server.web_fetcher.fetch = AsyncMock(return_value=mock_result)
         
-        # Call the tool handler
-        handler = server.server._tool_handlers.get("web_content_fetcher")
-        if handler:
-            result = await handler(
+        # Get the call_tool handler
+        call_tool_handler = None
+        for handler_name, handler in server.server.request_handlers.items():
+            if handler_name == "tools/call":
+                call_tool_handler = handler
+                break
+        
+        if call_tool_handler:
+            result = await call_tool_handler(
                 "web_content_fetcher",
                 {"urls": ["https://example.com"]}
             )
             
-            assert isinstance(result, ToolResult)
-            content = json.loads(result.content)
+            assert isinstance(result, list)
+            assert len(result) == 1
+            content = json.loads(result[0]["content"])
             assert content[0]["success"] is True
     
     @pytest.mark.asyncio
@@ -73,16 +94,21 @@ class TestYamlContextServer:
         }
         server.structure_extractor.extract = AsyncMock(return_value=mock_result)
         
-        # Call the tool handler
-        handler = server.server._tool_handlers.get("llm_structure_extractor")
-        if handler:
-            result = await handler(
+        # Get the call_tool handler
+        call_tool_handler = None
+        for handler_name, handler in server.server.request_handlers.items():
+            if handler_name == "tools/call":
+                call_tool_handler = handler
+                break
+        
+        if call_tool_handler:
+            result = await call_tool_handler(
                 "llm_structure_extractor",
                 {"content": "# Test"}
             )
             
-            assert isinstance(result, ToolResult)
-            content = json.loads(result.content)
+            assert isinstance(result, list)
+            content = json.loads(result[0]["content"])
             assert content["confidence_score"] == 0.9
     
     @pytest.mark.asyncio
@@ -98,10 +124,15 @@ class TestYamlContextServer:
         ]
         server.url_discovery.discover = AsyncMock(return_value=mock_result)
         
-        # Call the tool handler
-        handler = server.server._tool_handlers.get("url_discovery_engine")
-        if handler:
-            result = await handler(
+        # Get the call_tool handler
+        call_tool_handler = None
+        for handler_name, handler in server.server.request_handlers.items():
+            if handler_name == "tools/call":
+                call_tool_handler = handler
+                break
+        
+        if call_tool_handler:
+            result = await call_tool_handler(
                 "url_discovery_engine",
                 {
                     "content": "Check https://example.com/doc",
@@ -109,8 +140,8 @@ class TestYamlContextServer:
                 }
             )
             
-            assert isinstance(result, ToolResult)
-            content = json.loads(result.content)
+            assert isinstance(result, list)
+            content = json.loads(result[0]["content"])
             assert content[0]["priority_score"] == 0.8
     
     @pytest.mark.asyncio
@@ -124,10 +155,15 @@ class TestYamlContextServer:
         }
         server.file_manager.execute = AsyncMock(return_value=mock_result)
         
-        # Call the tool handler
-        handler = server.server._tool_handlers.get("file_system_manager")
-        if handler:
-            result = await handler(
+        # Get the call_tool handler
+        call_tool_handler = None
+        for handler_name, handler in server.server.request_handlers.items():
+            if handler_name == "tools/call":
+                call_tool_handler = handler
+                break
+        
+        if call_tool_handler:
+            result = await call_tool_handler(
                 "file_system_manager",
                 {
                     "action": "write_file",
@@ -136,9 +172,44 @@ class TestYamlContextServer:
                 }
             )
             
-            assert isinstance(result, ToolResult)
-            content = json.loads(result.content)
+            assert isinstance(result, list)
+            content = json.loads(result[0]["content"])
             assert content["success"] is True
+    
+    @pytest.mark.asyncio
+    async def test_ldd_manager_tool(self, server):
+        """Test LDD manager tool execution."""
+        # Mock the LDD manager
+        mock_result = {
+            "success": True,
+            "action": "create_task",
+            "result": {
+                "task_id": "test-123",
+                "status": "Initiated"
+            }
+        }
+        server.ldd_manager.execute = AsyncMock(return_value=mock_result)
+        
+        # Get the call_tool handler
+        call_tool_handler = None
+        for handler_name, handler in server.server.request_handlers.items():
+            if handler_name == "tools/call":
+                call_tool_handler = handler
+                break
+        
+        if call_tool_handler:
+            result = await call_tool_handler(
+                "ldd_manager",
+                {
+                    "action": "create_task",
+                    "task_name": "Test task"
+                }
+            )
+            
+            assert isinstance(result, list)
+            content = json.loads(result[0]["content"])
+            assert content["success"] is True
+            assert content["result"]["task_id"] == "test-123"
     
     @pytest.mark.asyncio
     async def test_error_handling(self, server):
@@ -146,25 +217,41 @@ class TestYamlContextServer:
         # Mock a failing tool
         server.web_fetcher.fetch = AsyncMock(side_effect=Exception("Test error"))
         
-        # Call the tool handler
-        handler = server.server._tool_handlers.get("web_content_fetcher")
-        if handler:
-            result = await handler(
-                "web_content_fetcher",
-                {"urls": ["https://example.com"]}
-            )
+        # Get the call_tool handler
+        call_tool_handler = None
+        for handler_name, handler in server.server.request_handlers.items():
+            if handler_name == "tools/call":
+                call_tool_handler = handler
+                break
+        
+        if call_tool_handler:
+            with pytest.raises(Exception) as exc_info:
+                await call_tool_handler(
+                    "web_content_fetcher",
+                    {"urls": ["https://example.com"]}
+                )
             
-            assert isinstance(result, ToolResult)
-            assert result.is_error is True
-            content = json.loads(result.content)
-            assert "error" in content
-            assert "Test error" in content["error"]
+            assert "Tool execution failed" in str(exc_info.value)
+            assert "Test error" in str(exc_info.value)
     
     @pytest.mark.asyncio
     async def test_unknown_tool(self, server):
         """Test handling of unknown tool."""
-        handler = server.server._tool_handlers.get("unknown_tool")
-        assert handler is None  # Unknown tools should not have handlers
+        # Get the call_tool handler
+        call_tool_handler = None
+        for handler_name, handler in server.server.request_handlers.items():
+            if handler_name == "tools/call":
+                call_tool_handler = handler
+                break
+        
+        if call_tool_handler:
+            with pytest.raises(Exception) as exc_info:
+                await call_tool_handler(
+                    "unknown_tool",
+                    {}
+                )
+            
+            assert "Unknown tool" in str(exc_info.value)
     
     @pytest.mark.asyncio
     async def test_output_directory_creation(self, server, temp_output_dir):

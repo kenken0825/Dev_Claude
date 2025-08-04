@@ -41,6 +41,7 @@ Commands:
   extract <url>     Extract hierarchical context from URL
   analyze <file>    Analyze local file structure
   serve            Start MCP server for Claude Code
+  ldd              LDD (Log-Driven Development) commands
   --help           Show this help message
   --version        Show version information
 
@@ -48,6 +49,8 @@ Examples:
   ${CLI_NAME} extract https://docs.example.com
   ${CLI_NAME} analyze README.md
   ${CLI_NAME} serve
+  ${CLI_NAME} ldd init
+  ${CLI_NAME} ldd task "New feature implementation"
 
 For Claude Code integration:
   Use /extract-context command in Claude Code
@@ -160,6 +163,59 @@ For Claude Code integration:
     server.on('close', (code) => {
       if (code !== 0) {
         console.error('❌ Server crashed');
+        process.exit(code);
+      }
+    });
+  }
+
+  // LDD commands
+  else if (command === 'ldd') {
+    const subCommand = args[1];
+    const lddArgs = args.slice(1);
+
+    if (!subCommand || subCommand === '--help' || subCommand === '-h') {
+      console.log(`
+📚 LDD (Log-Driven Development) System
+
+Usage: ${CLI_NAME} ldd <command> [options]
+
+Commands:
+  init              Initialize LDD system
+  task <name>       Create a new task log
+  memory <desc>     Add entry to memory bank
+
+Options:
+  --logs-dir        Logs directory (default: ./logs)
+  --memory-bank     Memory bank file path (default: ./@memory-bank.md)
+  -a, --agent       Agent name
+  -p, --project     Project name
+  -m, --module      Module/component name
+  -t, --type        Entry type (Learning/Discovery/Pattern/Error/Success/Insight)
+  --tags            Comma-separated tags
+
+Examples:
+  ${CLI_NAME} ldd init
+  ${CLI_NAME} ldd task "Extract context from API docs" -p "yaml-context" -m "web-fetcher"
+  ${CLI_NAME} ldd memory "Discovered optimal heading extraction pattern" -t Pattern --tags "extraction,optimization"
+`);
+      return;
+    }
+
+    console.log(`📝 Running LDD command: ${subCommand}`);
+
+    // Call Python MCP server with ldd command
+    const ldd = spawn('python3', [
+      '-m', 'yaml_context_engineering.cli',
+      'ldd',
+      ...lddArgs
+    ], {
+      cwd: MCP_SERVER_PATH,
+      stdio: 'inherit'
+    });
+
+    ldd.on('close', (code) => {
+      if (code !== 0 && code !== null) {
+        console.error('\n❌ LDD command failed');
         process.exit(code);
       }
     });

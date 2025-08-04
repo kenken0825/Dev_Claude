@@ -6,8 +6,8 @@ from typing import Dict, Any, List, Optional
 from pathlib import Path
 
 from mcp.server import Server
-from mcp.server.models import Tool, ToolInfo, ToolResult
 from mcp.server.stdio import stdio_server
+from mcp.types import Tool
 
 from .config import Config
 from .utils.logging import get_logger, console
@@ -17,6 +17,8 @@ from .tools import (
     URLDiscoveryEngine,
     FileSystemManager
 )
+from .tools.ldd_manager import LDDManagerTool, LDD_MANAGER_TOOL
+from .ldd import LDDConfig
 
 
 class YamlContextServer:
@@ -38,8 +40,13 @@ class YamlContextServer:
         self.url_discovery = URLDiscoveryEngine(config)
         self.file_manager = FileSystemManager(config)
         
-        # Register tools
-        self._register_tools()
+        # Initialize LDD system
+        ldd_config = LDDConfig(
+            logsDir=str(config.output.output_base_directory / 'logs'),
+            memoryBankPath=str(config.output.output_base_directory / '@memory-bank.md'),
+            templatePath=str(config.output.output_base_directory / '@logging_template.md')
+        )
+        self.ldd_manager = LDDManagerTool(ldd_config)
         
         # Setup handlers
         self._setup_handlers()
@@ -47,108 +54,111 @@ class YamlContextServer:
         self.logger.info("YAML Context Engineering MCP Server initialized", 
                         config=config.__dict__)
     
-    def _register_tools(self) -> None:
-        """Register MCP tools."""
-        tools = [
-            Tool(
-                name="web_content_fetcher",
-                description="指定されたURLからウェブページのコンテンツを取得",
-                parameters={
-                    "type": "object",
-                    "properties": {
-                        "urls": {
-                            "type": "array",
-                            "items": {"type": "string"},
-                            "description": "取得するURLのリスト"
-                        },
-                        "timeout": {
-                            "type": "integer",
-                            "default": 30,
-                            "description": "タイムアウト秒数"
-                        }
-                    },
-                    "required": ["urls"]
-                }
-            ),
-            Tool(
-                name="llm_structure_extractor",
-                description="テキストコンテンツから階層的な見出し構造を抽出",
-                parameters={
-                    "type": "object",
-                    "properties": {
-                        "content": {
-                            "type": "string",
-                            "description": "解析するテキストコンテンツ"
-                        },
-                        "target_schema": {
-                            "type": "object",
-                            "description": "目標とする構造スキーマ"
-                        },
-                        "extraction_config": {
-                            "type": "object",
-                            "description": "抽出設定"
-                        }
-                    },
-                    "required": ["content"]
-                }
-            ),
-            Tool(
-                name="url_discovery_engine",
-                description="コンテンツから関連URLを発見し、優先度付きで返す",
-                parameters={
-                    "type": "object",
-                    "properties": {
-                        "content": {
-                            "type": "string",
-                            "description": "URLを探すコンテンツ"
-                        },
-                        "base_domain": {
-                            "type": "string",
-                            "description": "基準となるドメイン"
-                        },
-                        "filters": {
-                            "type": "array",
-                            "items": {"type": "string"},
-                            "description": "URLフィルターパターン"
-                        }
-                    },
-                    "required": ["content", "base_domain"]
-                }
-            ),
-            Tool(
-                name="file_system_manager",
-                description="ディレクトリ作成、ファイル書き込み、パス管理",
-                parameters={
-                    "type": "object",
-                    "properties": {
-                        "action": {
-                            "type": "string",
-                            "enum": ["create_directory", "write_file", "sanitize_path", "generate_index"],
-                            "description": "実行するアクション"
-                        },
-                        "path": {
-                            "type": "string",
-                            "description": "操作対象のパス"
-                        },
-                        "content": {
-                            "type": "string",
-                            "description": "書き込む内容（write_fileの場合）"
-                        }
-                    },
-                    "required": ["action"]
-                }
-            )
-        ]
-        
-        for tool in tools:
-            self.server.register_tool(tool)
-            self.logger.debug(f"Registered tool: {tool.name}")
-    
     def _setup_handlers(self) -> None:
         """Set up tool execution handlers."""
         
+        @self.server.list_tools()
+        async def handle_list_tools() -> List[Tool]:
+            """List available tools."""
+            tools = [
+                Tool(
+                    name="web_content_fetcher",
+                    description="指定されたURLからウェブページのコンテンツを取得",
+                    inputSchema={
+                        "type": "object",
+                        "properties": {
+                            "urls": {
+                                "type": "array",
+                                "items": {"type": "string"},
+                                "description": "取得するURLのリスト"
+                            },
+                            "timeout": {
+                                "type": "integer",
+                                "default": 30,
+                                "description": "タイムアウト秒数"
+                            }
+                        },
+                        "required": ["urls"]
+                    }
+                ),
+                Tool(
+                    name="llm_structure_extractor",
+                    description="テキストコンテンツから階層的な見出し構造を抽出",
+                    inputSchema={
+                        "type": "object",
+                        "properties": {
+                            "content": {
+                                "type": "string",
+                                "description": "解析するテキストコンテンツ"
+                            },
+                            "target_schema": {
+                                "type": "object",
+                                "description": "目標とする構造スキーマ"
+                            },
+                            "extraction_config": {
+                                "type": "object",
+                                "description": "抽出設定"
+                            }
+                        },
+                        "required": ["content"]
+                    }
+                ),
+                Tool(
+                    name="url_discovery_engine",
+                    description="コンテンツから関連URLを発見し、優先度付きで返す",
+                    inputSchema={
+                        "type": "object",
+                        "properties": {
+                            "content": {
+                                "type": "string",
+                                "description": "URLを探すコンテンツ"
+                            },
+                            "base_domain": {
+                                "type": "string",
+                                "description": "基準となるドメイン"
+                            },
+                            "filters": {
+                                "type": "array",
+                                "items": {"type": "string"},
+                                "description": "URLフィルターパターン"
+                            }
+                        },
+                        "required": ["content", "base_domain"]
+                    }
+                ),
+                Tool(
+                    name="file_system_manager",
+                    description="ディレクトリ作成、ファイル書き込み、パス管理",
+                    inputSchema={
+                        "type": "object",
+                        "properties": {
+                            "action": {
+                                "type": "string",
+                                "enum": ["create_directory", "write_file", "sanitize_path", "generate_index"],
+                                "description": "実行するアクション"
+                            },
+                            "path": {
+                                "type": "string",
+                                "description": "操作対象のパス"
+                            },
+                            "content": {
+                                "type": "string",
+                                "description": "書き込む内容（write_fileの場合）"
+                            }
+                        },
+                        "required": ["action"]
+                    }
+                ),
+                Tool(
+                    name="ldd_manager",
+                    description=LDD_MANAGER_TOOL["description"],
+                    inputSchema=LDD_MANAGER_TOOL["inputSchema"]
+                )
+            ]
+            return tools
+        
         @self.server.call_tool()
-        async def handle_tool_call(name: str, arguments: Dict[str, Any]) -> ToolResult:
+        async def handle_tool_call(name: str, arguments: Dict[str, Any]) -> List[Dict[str, Any]]:
             """Handle tool execution requests."""
             self.logger.info(f"Tool called: {name}", arguments=arguments)
             
@@ -176,21 +186,20 @@ class YamlContextServer:
                         path=arguments.get("path"),
                         content=arguments.get("content")
                     )
+                elif name == "ldd_manager":
+                    result = await self.ldd_manager.execute(
+                        action=arguments["action"],
+                        **{k: v for k, v in arguments.items() if k != "action"}
+                    )
                 else:
                     raise ValueError(f"Unknown tool: {name}")
                 
                 self.logger.info(f"Tool executed successfully: {name}")
-                return ToolResult(content=json.dumps(result, ensure_ascii=False))
+                return [{"content": json.dumps(result, ensure_ascii=False)}]
                 
             except Exception as e:
                 self.logger.error(f"Tool execution failed: {name}", error=str(e))
-                return ToolResult(
-                    content=json.dumps({
-                        "error": str(e),
-                        "tool": name
-                    }),
-                    is_error=True
-                )
+                raise Exception(f"Tool execution failed: {name} - {str(e)}")
     
     async def run(self, host: str = "localhost", port: int = 3000) -> None:
         """Run the MCP server.
