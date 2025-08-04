@@ -1,0 +1,56 @@
+{
+  "name": "yaml-context",
+  "version": "1.0.0",
+  "description": "🔮 Supercharge your documentation workflow with Claude AI. Extract hierarchical context from any source and generate structured YAML documentation.",
+  "main": "index.js",
+  "bin": {
+    "yaml-context": "./bin/yaml-context"
+  },
+  "scripts": {
+    "test": "cd mcp-server && pytest",
+    "serve": "cd mcp-server && python -m yaml_context_engineering.main",
+    "extract": "node bin/yaml-context extract",
+    "analyze": "node bin/yaml-context analyze",
+    "format": "cd mcp-server && black src/ tests/",
+    "lint": "cd mcp-server && flake8 src/ tests/",
+    "typecheck": "cd mcp-server && mypy src/",
+    "setup": "cd mcp-server && pip install -e .",
+    "commit": "git add -A && git commit",
+    "release:prep": "npm run test && npm run format"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yourusername/yaml-context.git"
+  },
+  "keywords": [
+    "claude",
+    "claude-code",
+    "ai",
+    "documentation",
+    "yaml",
+    "context",
+    "extraction",
+    "mcp",
+    "anthropic",
+    "workflow",
+    "automation"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/yourusername/yaml-context/issues"
+  },
+  "homepage": "https://github.com/yourusername/yaml-context#readme",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {},
+  "devDependencies": {},
+  "files": [
+    "bin/",
+    "mcp-server/",
+    ".claude/",
+    "README.md",
+    "LICENSE"
+  ]
+}

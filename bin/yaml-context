@@ -1,0 +1,180 @@
+#!/usr/bin/env node
+
+/**
+ * YAML Context Engineering CLI
+ * Supercharge your documentation workflow with Claude AI
+ */
+
+const { spawn } = require('child_process');
+const path = require('path');
+const fs = require('fs');
+
+// CLI configuration
+const CLI_NAME = 'yaml-context';
+const MCP_SERVER_PATH = path.join(__dirname, '..', 'mcp-server');
+const PYTHON_SCRIPT = path.join(MCP_SERVER_PATH, 'src', 'yaml_context_engineering', 'main.py');
+
+// Check if Python is installed
+function checkPython() {
+  return new Promise((resolve) => {
+    const python = spawn('python3', ['--version']);
+    python.on('close', (code) => {
+      resolve(code === 0);
+    });
+  });
+}
+
+// Main CLI function
+async function main() {
+  const args = process.argv.slice(2);
+  const command = args[0];
+
+  // Help command
+  if (!command || command === '--help' || command === '-h') {
+    console.log(`
+🔮 YAML Context Engineering for Claude Code
+Transform any content into structured YAML documentation
+
+Usage: ${CLI_NAME} <command> [options]
+
+Commands:
+  extract <url>     Extract hierarchical context from URL
+  analyze <file>    Analyze local file structure
+  serve            Start MCP server for Claude Code
+  --help           Show this help message
+  --version        Show version information
+
+Examples:
+  ${CLI_NAME} extract https://docs.example.com
+  ${CLI_NAME} analyze README.md
+  ${CLI_NAME} serve
+
+For Claude Code integration:
+  Use /extract-context command in Claude Code
+`);
+    return;
+  }
+
+  // Version command
+  if (command === '--version' || command === '-v') {
+    const packageJson = require(path.join(__dirname, '..', 'package.json'));
+    console.log(`${CLI_NAME} v${packageJson.version}`);
+    return;
+  }
+
+  // Check Python installation
+  const hasPython = await checkPython();
+  if (!hasPython) {
+    console.error('❌ Python 3 is required but not found');
+    console.error('Please install Python 3.9+ from https://python.org');
+    process.exit(1);
+  }
+
+  // Extract command
+  if (command === 'extract') {
+    const url = args[1];
+    if (!url) {
+      console.error('❌ Please provide a URL to extract');
+      console.error(`Usage: ${CLI_NAME} extract <url>`);
+      process.exit(1);
+    }
+
+    console.log(`🔍 Extracting context from: ${url}`);
+    console.log('⏳ Processing with Claude AI...\n');
+
+    // Call Python MCP server with extract command
+    const extract = spawn('python3', [
+      '-m', 'yaml_context_engineering.cli',
+      'extract',
+      url
+    ], {
+      cwd: MCP_SERVER_PATH,
+      stdio: 'inherit'
+    });
+
+    extract.on('close', (code) => {
+      if (code === 0) {
+        console.log('\n✅ Context extraction complete!');
+        console.log('📁 Check generated_contexts/ for output files');
+      } else {
+        console.error('\n❌ Extraction failed');
+        process.exit(code);
+      }
+    });
+  }
+
+  // Analyze command
+  else if (command === 'analyze') {
+    const file = args[1];
+    if (!file) {
+      console.error('❌ Please provide a file to analyze');
+      console.error(`Usage: ${CLI_NAME} analyze <file>`);
+      process.exit(1);
+    }
+
+    if (!fs.existsSync(file)) {
+      console.error(`❌ File not found: ${file}`);
+      process.exit(1);
+    }
+
+    console.log(`📊 Analyzing file: ${file}`);
+    console.log('⏳ Processing structure...\n');
+
+    // Call Python MCP server with analyze command
+    const analyze = spawn('python3', [
+      '-m', 'yaml_context_engineering.cli',
+      'analyze',
+      file
+    ], {
+      cwd: MCP_SERVER_PATH,
+      stdio: 'inherit'
+    });
+
+    analyze.on('close', (code) => {
+      if (code === 0) {
+        console.log('\n✅ Analysis complete!');
+      } else {
+        console.error('\n❌ Analysis failed');
+        process.exit(code);
+      }
+    });
+  }
+
+  // Serve command
+  else if (command === 'serve') {
+    console.log('🚀 Starting YAML Context MCP Server...');
+    console.log('📡 Server will be available for Claude Code\n');
+
+    const server = spawn('python3', ['-m', 'yaml_context_engineering.main'], {
+      cwd: MCP_SERVER_PATH,
+      stdio: 'inherit'
+    });
+
+    // Handle graceful shutdown
+    process.on('SIGINT', () => {
+      console.log('\n👋 Shutting down server...');
+      server.kill();
+      process.exit(0);
+    });
+
+    server.on('close', (code) => {
+      if (code !== 0) {
+        console.error('❌ Server crashed');
+        process.exit(code);
+      }
+    });
+  }
+
+  // Unknown command
+  else {
+    console.error(`❌ Unknown command: ${command}`);
+    console.error(`Run '${CLI_NAME} --help' for usage information`);
+    process.exit(1);
+  }
+}
+
+// Run CLI
+main().catch((error) => {
+  console.error('❌ Unexpected error:', error.message);
+  process.exit(1);
+});
