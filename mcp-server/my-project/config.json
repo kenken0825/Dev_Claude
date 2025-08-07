@@ -1,0 +1,13 @@
+{
+  "project_name": "my-project",
+  "version": "1.0.0",
+  "template": "basic",
+  "output": {
+    "base_directory": "generated_contexts",
+    "format": "markdown"
+  },
+  "crawling": {
+    "max_depth": 3,
+    "delay_seconds": 1.0
+  }
+}

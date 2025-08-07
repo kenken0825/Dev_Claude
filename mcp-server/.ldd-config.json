@@ -1,0 +1,6 @@
+{
+  "logsDir": "./logs",
+  "memoryBankPath": "./@memory-bank.md",
+  "templatePath": "./@logging_template.md",
+  "enableAutoLogging": true
+}

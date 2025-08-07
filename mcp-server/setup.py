@@ -35,6 +35,7 @@ setup(
     entry_points={
         "console_scripts": [
             "yaml-context-mcp=yaml_context_engineering.main:main",
+            "yaml-context=yaml_context_engineering.cli:main",
         ],
     },
     include_package_data=True,
