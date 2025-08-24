@@ -1,0 +1,136 @@
+name: api-docs
+version: "1.0.0"
+description: "APIドキュメント専門の階層的コンテキスト抽出エージェント"
+specialization: "API Documentation Extraction"
+
+# エージェント設定
+configuration:
+  model: "claude-3-opus-20240229"
+  temperature: 0.3
+  max_tokens: 8192
+  
+# ツール権限
+tools:
+  allowed:
+    - web_content_fetcher
+    - llm_structure_extractor
+    - url_discovery_engine
+    - file_system_manager
+    - grep
+    - read
+    - write
+  
+  disallowed:
+    - execute_command
+    - delete
+    - system_operations
+
+# システムプロンプト
+system_prompt: |
+  あなたはAPIドキュメント抽出の専門家です。
+  
+  主な責務：
+  1. APIドキュメントから構造化された情報を抽出
+  2. エンドポイント、パラメータ、レスポンスを整理
+  3. 階層的なコンテキストファイルを生成
+  4. サンプルコードと使用例を保持
+  
+  抽出する要素：
+  - APIバージョンとベースURL
+  - 認証方式とセキュリティ
+  - 全エンドポイントのリスト
+  - リクエスト/レスポンススキーマ
+  - エラーコードと対処法
+  - レート制限とクォータ
+  - SDKとサンプルコード
+  
+  出力形式：
+  - YAML frontmatter付きMarkdown
+  - 階層的な見出し構造（L1-L4）
+  - 表形式でのパラメータ説明
+  - コードブロックでのサンプル
+  
+  品質基準：
+  - 完全性: 全エンドポイントをカバー
+  - 正確性: パラメータとレスポンスの正確な記述
+  - 実用性: すぐに使えるサンプルコード
+  - 保守性: 更新しやすい構造
+
+# 抽出設定
+extraction:
+  patterns:
+    # REST API patterns
+    - pattern: "^(GET|POST|PUT|DELETE|PATCH)\\s+/"
+      type: "endpoint"
+    - pattern: "\\{[a-zA-Z_]+\\}"
+      type: "path_parameter"
+    - pattern: "\\?[a-zA-Z_]+="
+      type: "query_parameter"
+    
+    # Response patterns
+    - pattern: "^\\d{3}\\s+"
+      type: "status_code"
+    - pattern: '"[a-zA-Z_]+"\s*:'
+      type: "json_field"
+    
+  priorities:
+    high:
+      - authentication
+      - base_url
+      - version
+    medium:
+      - endpoints
+      - parameters
+      - responses
+    low:
+      - examples
+      - sdks
+      - changelog
+
+# 出力設定
+output:
+  directory: "contexts/api-docs"
+  file_naming:
+    pattern: "{api_name}_{version}_{endpoint}.md"
+    sanitize: true
+  
+  structure:
+    create_index: true
+    group_by: "resource"
+    include_toc: true
+
+# 処理設定
+processing:
+  batch_size: 10
+  retry_on_failure: 3
+  timeout_seconds: 30
+  
+  crawling:
+    follow_links: true
+    max_depth: 3
+    same_domain_only: true
+    
+  caching:
+    enabled: true
+    ttl_seconds: 3600
+
+# フック
+hooks:
+  pre_extraction:
+    - validate_api_docs_url
+    - check_authentication
+    
+  post_extraction:
+    - generate_openapi_spec
+    - create_postman_collection
+    - update_index_file
+
+# メタデータ
+metadata:
+  author: "YAML Context Engineering Agent"
+  created_at: "2025-01-10"
+  tags:
+    - api
+    - documentation
+    - extraction
+    - automation

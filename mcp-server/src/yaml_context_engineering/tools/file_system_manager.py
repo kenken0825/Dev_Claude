@@ -88,20 +88,20 @@ class FileSystemManager:
         # Ensure parent directory exists
         file_path.parent.mkdir(parents=True, exist_ok=True)
         
-        # Prepare frontmatter
+        # Prepare frontmatter - ensure all values are safe for YAML
         frontmatter = {
-            "title": content.get("title", "Untitled"),
-            "source_url": content.get("source_url", ""),
-            "last_updated": content.get("last_updated", datetime.utcnow().isoformat() + "Z"),
-            "content_type": content.get("content_type", "documentation"),
-            "language": content.get("language", "ja"),
-            "extraction_confidence": content.get("extraction_confidence", 0.0),
-            "agent_version": self.config.server_version,
+            "title": str(content.get("title", "Untitled")).replace('\u2122', '(TM)').replace('\u2013', '-').replace('\u2014', '--'),
+            "source_url": str(content.get("source_url", "")),
+            "last_updated": str(content.get("last_updated", datetime.utcnow().isoformat() + "Z")),
+            "content_type": str(content.get("content_type", "documentation")),
+            "language": str(content.get("language", "ja")),
+            "extraction_confidence": float(content.get("extraction_confidence", 0.0)),
+            "agent_version": str(self.config.server_version),
             "extracted_by": "YAML Context Engineering Agent",
             "extraction_timestamp": datetime.utcnow().isoformat() + "Z",
-            "hierarchy_levels": content.get("hierarchy_levels", []),
-            "related_sources": content.get("related_sources", []),
-            "tags": content.get("tags", [])
+            "hierarchy_levels": list(content.get("hierarchy_levels", [])),
+            "related_sources": list(content.get("related_sources", [])),
+            "tags": list(content.get("tags", []))
         }
         
         # Build file content

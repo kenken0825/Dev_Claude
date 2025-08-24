@@ -1,0 +1,117 @@
+{
+  "version": "1.0.0",
+  "generated_at": "2025-08-10T18:34:33.668477",
+  "entries": [
+    {
+      "type": "section",
+      "id": "getting-started",
+      "title": "はじめに",
+      "keywords": [
+        "はじめに",
+        "npm",
+        "install",
+        "anthropic",
+        "claude",
+        "code",
+        "curl",
+        "fssl",
+        "claude",
+        "install",
+        "bash",
+        "claude",
+        "claude",
+        "help"
+      ],
+      "content_refs": [
+        "quickstart_complete.md"
+      ],
+      "commands": [
+        "npm install -g @anthropic-ai/claude-code",
+        "curl -fsSL claude.ai/install.sh | bash",
+        "claude",
+        "claude --help"
+      ]
+    },
+    {
+      "type": "section",
+      "id": "commands",
+      "title": "コマンドリファレンス",
+      "keywords": [
+        "コマンドリファレンス",
+        "claude",
+        "claude",
+        "query",
+        "claude",
+        "query",
+        "claude",
+        "claude",
+        "claude",
+        "commit",
+        "claude",
+        "resume",
+        "claude",
+        "query"
+      ],
+      "content_refs": [
+        "cli-reference_complete.md"
+      ],
+      "commands": [
+        "claude",
+        "claude \"query\"",
+        "claude -p \"query\"",
+        "claude -c",
+        "claude -r",
+        "claude commit",
+        "claude --resume",
+        "claude -c -p \"query\""
+      ]
+    },
+    {
+      "type": "section",
+      "id": "slash-commands",
+      "title": "スラッシュコマンド",
+      "keywords": [
+        "スラッシュコマンド",
+        "clear",
+        "exit",
+        "help",
+        "setup",
+        "config",
+        "debug"
+      ],
+      "content_refs": [
+        "slash-commands_complete.md"
+      ],
+      "commands": [
+        "/clear",
+        "/exit",
+        "/help",
+        "/setup",
+        "/config",
+        "/debug"
+      ]
+    },
+    {
+      "type": "section",
+      "id": "troubleshooting",
+      "title": "トラブルシューティング",
+      "keywords": [
+        "トラブルシューティング"
+      ],
+      "content_refs": [],
+      "commands": []
+    }
+  ],
+  "global_keywords": [
+    "claude",
+    "code",
+    "ai",
+    "programming",
+    "command",
+    "install",
+    "setup",
+    "git",
+    "commit",
+    "debug"
+  ]
+}

@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Claude Code インタラクティブマニュアル</title>
+    <style>
+        :root {
+            --primary: #007bff;
+            --secondary: #6c757d;
+            --success: #28a745;
+            --dark: #343a40;
+            --light: #f8f9fa;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        header {
+            background: white;
+            border-radius: 1rem;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        
+        .search-box {
+            width: 100%;
+            padding: 1rem;
+            font-size: 1.1rem;
+            border: 2px solid var(--light);
+            border-radius: 0.5rem;
+            transition: border-color 0.3s;
+        }
+        
+        .search-box:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        
+        .content {
+            display: grid;
+            grid-template-columns: 1fr 3fr;
+            gap: 2rem;
+        }
+        
+        .sidebar {
+            background: white;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            height: fit-content;
+            position: sticky;
+            top: 2rem;
+        }
+        
+        .main-content {
+            background: white;
+            border-radius: 1rem;
+            padding: 2rem;
+        }
+        
+        .nav-item {
+            display: block;
+            padding: 0.75rem 1rem;
+            margin: 0.25rem 0;
+            text-decoration: none;
+            color: var(--dark);
+            border-radius: 0.5rem;
+            transition: background 0.3s;
+        }
+        
+        .nav-item:hover {
+            background: var(--light);
+        }
+        
+        .nav-item.active {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .command-card {
+            background: var(--light);
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-left: 4px solid var(--primary);
+        }
+        
+        code {
+            background: #f4f4f4;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-family: 'Courier New', monospace;
+        }
+        
+        pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+        
+        .collapsible {
+            background: var(--light);
+            cursor: pointer;
+            padding: 1rem;
+            width: 100%;
+            border: none;
+            text-align: left;
+            outline: none;
+            font-size: 1.1rem;
+            border-radius: 0.5rem;
+            margin: 0.5rem 0;
+            transition: background 0.3s;
+        }
+        
+        .collapsible:hover {
+            background: #e9ecef;
+        }
+        
+        .collapsible:after {
+            content: '\002B';
+            float: right;
+            font-weight: bold;
+        }
+        
+        .active:after {
+            content: "\2212";
+        }
+        
+        .collapsible-content {
+            padding: 0 1rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+        }
+        
+        .copy-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 0.25rem;
+            cursor: pointer;
+            margin-left: 0.5rem;
+        }
+        
+        .copy-btn:hover {
+            background: #0056b3;
+        }
+        
+        @media (max-width: 768px) {
+            .content {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                position: static;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🚀 Claude Code インタラクティブマニュアル</h1>
+            <p>AIペアプログラマーの完全ガイド</p>
+            <input type="text" class="search-box" placeholder="検索... (例: commit, git, debug)" id="searchBox">
+        </header>
+        
+        <div class="content">
+            <nav class="sidebar">
+                <a href="#quickstart" class="nav-item active">🎯 クイックスタート</a>
+                <a href="#commands" class="nav-item">📝 コマンド一覧</a>
+                <a href="#tips" class="nav-item">💡 Tips & Tricks</a>
+                <a href="#troubleshooting" class="nav-item">🔧 トラブルシューティング</a>
+                <a href="#advanced" class="nav-item">🔥 上級機能</a>
+                <a href="#stats" class="nav-item">📊 使用統計</a>
+            </nav>
+            
+            <main class="main-content">
+                <section id="quickstart">
+                    <h2>🎯 クイックスタート</h2>
+                    
+                    <button class="collapsible">5分でマスター</button>
+                    <div class="collapsible-content">
+                        <div class="command-card">
+                            <h3>1. インストール (30秒)</h3>
+                            <pre><code>npm install -g @anthropic-ai/claude-code</code></pre>
+                            <button class="copy-btn" onclick="copyToClipboard('npm install -g @anthropic-ai/claude-code')">コピー</button>
+                        </div>
+                        
+                        <div class="command-card">
+                            <h3>2. 起動 (10秒)</h3>
+                            <pre><code>claude</code></pre>
+                            <button class="copy-btn" onclick="copyToClipboard('claude')">コピー</button>
+                        </div>
+                        
+                        <div class="command-card">
+                            <h3>3. 最初の質問</h3>
+                            <pre><code>> what does this project do?</code></pre>
+                        </div>
+                    </div>
+                    
+                    <button class="collapsible">基本コマンド</button>
+                    <div class="collapsible-content">
+                        <table style="width: 100%; margin: 1rem 0;">
+                            <tr>
+                                <th>コマンド</th>
+                                <th>説明</th>
+                                <th>例</th>
+                            </tr>
+                            <tr>
+                                <td><code>claude</code></td>
+                                <td>インタラクティブモード開始</td>
+                                <td><code>claude</code></td>
+                            </tr>
+                            <tr>
+                                <td><code>claude -c</code></td>
+                                <td>前回の会話を継続</td>
+                                <td><code>claude -c</code></td>
+                            </tr>
+                            <tr>
+                                <td><code>claude -p</code></td>
+                                <td>単発クエリ</td>
+                                <td><code>claude -p "explain this"</code></td>
+                            </tr>
+                        </table>
+                    </div>
+                </section>
+                
+                <section id="stats" style="display: none;">
+                    <h2>📊 使用統計</h2>
+                    <div class="stats">
+                        <div class="stat-card">
+                            <div class="stat-number">6</div>
+                            <div>コマンドパターン</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">2</div>
+                            <div>タグ数</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">20</div>
+                            <div>総使用回数</div>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+    
+    <script>
+        // コラプシブル要素の制御
+        var coll = document.getElementsByClassName("collapsible");
+        for (var i = 0; i < coll.length; i++) {
+            coll[i].addEventListener("click", function() {
+                this.classList.toggle("active");
+                var content = this.nextElementSibling;
+                if (content.style.maxHeight) {
+                    content.style.maxHeight = null;
+                } else {
+                    content.style.maxHeight = content.scrollHeight + "px";
+                }
+            });
+        }
+        
+        // ナビゲーション
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+                this.classList.add('active');
+                
+                document.querySelectorAll('section').forEach(s => s.style.display = 'none');
+                const target = this.getAttribute('href').substring(1);
+                const section = document.getElementById(target);
+                if (section) section.style.display = 'block';
+            });
+        });
+        
+        // 検索機能
+        document.getElementById('searchBox').addEventListener('input', function(e) {
+            const query = e.target.value.toLowerCase();
+            // 検索ロジックを実装
+        });
+        
+        // コピー機能
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                alert('コピーしました！');
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,132 @@
+---
+title: "n8n Documentation Structure"
+source_url: "https://docs.n8n.io/"
+last_updated: "2025-01-07"
+purpose: "Foundation for automatic workflow node creation"
+extracted_by: "YAML Context Engineering Agent"
+extraction_timestamp: "2025-01-07T12:00:00Z"
+content_type: "documentation_structure"
+language: "en"
+hierarchy_levels: ["L1", "L2", "L3"]
+---
+
+# n8n Documentation Hierarchical Structure
+
+## 1. Using n8n
+### 1.1 Getting started
+- **Learning path**: Structured approach to learning n8n
+- **Choose your n8n**: Selection guide for deployment options
+- **Quickstarts**: Fast track tutorials
+- **Video courses**: Visual learning materials
+- **Text courses**:
+  - Level one: Beginner fundamentals
+  - Level two: Advanced techniques
+
+### 1.2 Using the app
+- **Understand workflows**: Core workflow concepts
+- **Manage credentials**: Security and authentication
+- **Manage users and access**: Permission systems
+- **Keyboard shortcuts**: Productivity enhancements
+
+### 1.3 Key concepts
+- **Flow logic**: Execution patterns and control flow
+- **Data**: Data transformation and handling
+- **Glossary**: Technical terminology
+
+## 2. Integrations
+### 2.1 Built-in nodes
+- **Node types**: Classification and categories
+- **Core nodes**: Essential building blocks
+- **Actions**: Execution nodes
+- **Triggers**: Event-driven nodes
+- **Cluster nodes**: Advanced node groupings
+
+### 2.2 Credentials
+- Authentication methods
+- Security best practices
+- Credential management
+
+## 3. Hosting n8n
+- Self-hosting options
+- Cloud deployment
+- Infrastructure requirements
+- Scaling considerations
+
+## 4. Code in n8n
+- Custom function nodes
+- JavaScript expressions
+- Code node usage
+- API integrations
+
+## 5. Advanced AI
+- AI node capabilities
+- LLM integrations
+- Machine learning workflows
+- AI-powered automation
+
+## 6. API
+- REST API documentation
+- Webhook handling
+- API authentication
+- Rate limiting
+
+## 7. Embed
+- Embedding workflows
+- Integration methods
+- Security considerations
+
+## 8. Releases
+### 8.1 Release notes
+- Version updates
+- New features
+- Bug fixes
+- Breaking changes
+
+### 8.2 Migration guide
+- Version migration paths
+- Compatibility notes
+- Upgrade procedures
+
+## 9. Help and community
+### 9.1 Where to get help
+- Support channels
+- Community forums
+- Documentation resources
+
+### 9.2 Contributing
+- Contribution guidelines
+- Development setup
+- Pull request process
+
+## 10. Licenses and privacy
+### 10.1 Privacy and security
+- Data protection
+- Security practices
+- Compliance
+
+### 10.2 Sustainable use license
+- License terms
+- Usage restrictions
+- Commercial use
+
+---
+# Metadata for Automatic Workflow Generation
+
+workflow_generation_context:
+  core_components:
+    - triggers: Event initiators
+    - actions: Process executors
+    - credentials: Authentication handlers
+    - flow_logic: Control structures
+  
+  integration_patterns:
+    - webhook_based: External event handling
+    - scheduled: Time-based execution
+    - manual: User-triggered workflows
+    - conditional: Logic-based branching
+  
+  data_handling:
+    - transformation: Data manipulation
+    - validation: Input verification
+    - routing: Conditional data flow
+    - aggregation: Data combination

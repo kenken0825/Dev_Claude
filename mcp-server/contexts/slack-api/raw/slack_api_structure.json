@@ -1,0 +1,316 @@
+{
+  "root": "Slack API Documentation",
+  "timestamp": "2025-08-07T13:01:01.633219Z",
+  "max_depth": 4,
+  "sections": [
+    {
+      "url": "https://api.slack.com/docs",
+      "title": "Slack platform overview | Slack",
+      "level": 1,
+      "total_headings": 8,
+      "headings": [
+        {
+          "text": "Slack platform overview",
+          "level": 1,
+          "type": "L1"
+        }
+      ],
+      "children": [
+        {
+          "url": "https://api.slack.com/docs/developer-sandbox",
+          "title": "Developer sandboxes | Slack",
+          "level": 2,
+          "total_headings": 19,
+          "headings": [
+            {
+              "text": "Developer sandboxes",
+              "level": 1,
+              "type": "L1"
+            }
+          ],
+          "children": [
+            {
+              "url": "https://api.slack.com/docs/apps/ai-apps-overview",
+              "title": "AI Apps Overview | Slack",
+              "level": 3,
+              "total_headings": 9,
+              "headings": [
+                {
+                  "text": "AI Apps Overview",
+                  "level": 1,
+                  "type": "L1"
+                }
+              ],
+              "children": [
+                {
+                  "url": "https://api.slack.com/docs/apps/custom-slack-actions",
+                  "title": "Customizing Agentforce agents with custom Slack actions | Slack",
+                  "level": 4,
+                  "total_headings": 15,
+                  "headings": [
+                    {
+                      "text": "Customizing Agentforce agents with custom Slack actions",
+                      "level": 1,
+                      "type": "L1"
+                    }
+                  ],
+                  "children": [],
+                  "content_preview": "[](https://api.slack.com/)\n\n __\n\n__\n\n[Docs](/docs)\n\n[Tutorials](/tutorials)\n\n[Developer Program](/developer-program)\n\n[Your apps](/apps)\n\n _\n\n_[Slack Platform](/docs)\n\n _\n\n_[Samples& templates](/samples)\n\n _\n\n_[Developer sandboxes](/docs/developer-sandbox)\n\n* * *\n\n[Slack apps](/start/apps/)\n\n _\n\n_[Quickstart: Send a message](/quickstart)\n\n _\n\n_Authentication\n\n[Overview](/authentication)\n\n[Installing with OAuth](/authentication/oauth-v2)\n\n[Token rotation](/authentication/rotation)\n\n[Verifying req",
+                  "metadata": {
+                    "confidence": 1.0,
+                    "format": "markdown",
+                    "hierarchy_levels": [
+                      1,
+                      2,
+                      3
+                    ]
+                  }
+                }
+              ],
+              "content_preview": "[](https://api.slack.com/)\n\n __\n\n__\n\n[Docs](/docs)\n\n[Tutorials](/tutorials)\n\n[Developer Program](/developer-program)\n\n[Your apps](/apps)\n\n _\n\n_[Slack Platform](/docs)\n\n _\n\n_[Samples& templates](/samples)\n\n _\n\n_[Developer sandboxes](/docs/developer-sandbox)\n\n* * *\n\n[Slack apps](/start/apps/)\n\n _\n\n_[Quickstart: Send a message](/quickstart)\n\n _\n\n_Authentication\n\n[Overview](/authentication)\n\n[Installing with OAuth](/authentication/oauth-v2)\n\n[Token rotation](/authentication/rotation)\n\n[Verifying req",
+              "metadata": {
+                "confidence": 0.9,
+                "format": "markdown",
+                "hierarchy_levels": [
+                  1,
+                  2,
+                  3
+                ]
+              }
+            }
+          ],
+          "content_preview": "[](https://api.slack.com/)\n\n __\n\n__\n\n[Docs](/docs)\n\n[Tutorials](/tutorials)\n\n[Developer Program](/developer-program)\n\n[Your apps](/apps)\n\n _\n\n_[Slack Platform](/docs)\n\n _\n\n_[Samples& templates](/samples)\n\n _\n\n_[Developer sandboxes](/docs/developer-sandbox)\n\n* * *\n\n[Slack apps](/start/apps/)\n\n _\n\n_[Quickstart: Send a message](/quickstart)\n\n _\n\n_Authentication\n\n[Overview](/authentication)\n\n[Installing with OAuth](/authentication/oauth-v2)\n\n[Token rotation](/authentication/rotation)\n\n[Verifying req",
+          "metadata": {
+            "confidence": 1.0,
+            "format": "markdown",
+            "hierarchy_levels": [
+              1,
+              2,
+              3,
+              4
+            ]
+          }
+        }
+      ],
+      "content_preview": "[](https://api.slack.com/)\n\n __\n\n__\n\n[Docs](/docs)\n\n[Tutorials](/tutorials)\n\n[Developer Program](/developer-program)\n\n[Your apps](/apps)\n\n _\n\n_[Slack Platform](/docs)\n\n _\n\n_[Samples& templates](/samples)\n\n _\n\n_[Developer sandboxes](/docs/developer-sandbox)\n\n* * *\n\n[Slack apps](/start/apps/)\n\n _\n\n_[Quickstart: Send a message](/quickstart)\n\n _\n\n_Authentication\n\n[Overview](/authentication)\n\n[Installing with OAuth](/authentication/oauth-v2)\n\n[Token rotation](/authentication/rotation)\n\n[Verifying req",
+      "metadata": {
+        "confidence": 0.8,
+        "format": "markdown",
+        "hierarchy_levels": [
+          1,
+          3,
+          4
+        ]
+      }
+    },
+    {
+      "url": "https://api.slack.com/methods",
+      "title": "Web API methods | Slack",
+      "level": 1,
+      "total_headings": 2,
+      "headings": [
+        {
+          "text": "Web API methods",
+          "level": 1,
+          "type": "L1"
+        }
+      ],
+      "children": [],
+      "content_preview": "[](https://api.slack.com/)\n\n __\n\n__\n\n[Docs](/docs)\n\n[Tutorials](/tutorials)\n\n[Developer Program](/developer-program)\n\n[Your apps](/apps)\n\n _\n\n_[Slack Platform](/docs)\n\n _\n\n_[Samples& templates](/samples)\n\n _\n\n_[Developer sandboxes](/docs/developer-sandbox)\n\n* * *\n\n[Slack apps](/start/apps/)\n\n _\n\n_[Quickstart: Send a message](/quickstart)\n\n _\n\n_Authentication\n\n[Overview](/authentication)\n\n[Installing with OAuth](/authentication/oauth-v2)\n\n[Token rotation](/authentication/rotation)\n\n[Verifying req",
+      "metadata": {
+        "confidence": 0.2,
+        "format": "markdown",
+        "hierarchy_levels": [
+          1,
+          2
+        ]
+      }
+    },
+    {
+      "url": "https://api.slack.com/reference",
+      "title": "Reference guides for app features | Slack",
+      "level": 1,
+      "total_headings": 8,
+      "headings": [
+        {
+          "text": "Reference guides for app features",
+          "level": 1,
+          "type": "L1"
+        }
+      ],
+      "children": [],
+      "content_preview": "[](https://api.slack.com/)\n\n __\n\n__\n\n[Docs](/docs)\n\n[Tutorials](/tutorials)\n\n[Developer Program](/developer-program)\n\n[Your apps](/apps)\n\n _\n\n_[Slack Platform](/docs)\n\n _\n\n_[Samples& templates](/samples)\n\n _\n\n_[Developer sandboxes](/docs/developer-sandbox)\n\n* * *\n\n[Slack apps](/start/apps/)\n\n _\n\n_[Quickstart: Send a message](/quickstart)\n\n _\n\n_Authentication\n\n[Overview](/authentication)\n\n[Installing with OAuth](/authentication/oauth-v2)\n\n[Token rotation](/authentication/rotation)\n\n[Verifying req",
+      "metadata": {
+        "confidence": 0.8,
+        "format": "markdown",
+        "hierarchy_levels": [
+          1,
+          2
+        ]
+      }
+    },
+    {
+      "url": "https://api.slack.com/apis",
+      "title": "Using Slack APIs | Slack",
+      "level": 1,
+      "total_headings": 4,
+      "headings": [
+        {
+          "text": "Using Slack APIs",
+          "level": 1,
+          "type": "L1"
+        }
+      ],
+      "children": [],
+      "content_preview": "[](https://api.slack.com/)\n\n __\n\n__\n\n[Docs](/docs)\n\n[Tutorials](/tutorials)\n\n[Developer Program](/developer-program)\n\n[Your apps](/apps)\n\n _\n\n_[Slack Platform](/docs)\n\n _\n\n_[Samples& templates](/samples)\n\n _\n\n_[Developer sandboxes](/docs/developer-sandbox)\n\n* * *\n\n[Slack apps](/start/apps/)\n\n _\n\n_[Quickstart: Send a message](/quickstart)\n\n _\n\n_Authentication\n\n[Overview](/authentication)\n\n[Installing with OAuth](/authentication/oauth-v2)\n\n[Token rotation](/authentication/rotation)\n\n[Verifying req",
+      "metadata": {
+        "confidence": 0.4,
+        "format": "markdown",
+        "hierarchy_levels": [
+          1,
+          2
+        ]
+      }
+    },
+    {
+      "url": "https://api.slack.com/events-api",
+      "title": "Events API | Slack",
+      "level": 1,
+      "total_headings": 29,
+      "headings": [
+        {
+          "text": "Events API",
+          "level": 1,
+          "type": "L1"
+        }
+      ],
+      "children": [],
+      "content_preview": "[](https://api.slack.com/)\n\n __\n\n__\n\n[Docs](/docs)\n\n[Tutorials](/tutorials)\n\n[Developer Program](/developer-program)\n\n[Your apps](/apps)\n\n _\n\n_[Slack Platform](/docs)\n\n _\n\n_[Samples& templates](/samples)\n\n _\n\n_[Developer sandboxes](/docs/developer-sandbox)\n\n* * *\n\n[Slack apps](/start/apps/)\n\n _\n\n_[Quickstart: Send a message](/quickstart)\n\n _\n\n_Authentication\n\n[Overview](/authentication)\n\n[Installing with OAuth](/authentication/oauth-v2)\n\n[Token rotation](/authentication/rotation)\n\n[Verifying req",
+      "metadata": {
+        "confidence": 1.0,
+        "format": "markdown",
+        "hierarchy_levels": [
+          1,
+          2,
+          3
+        ]
+      }
+    },
+    {
+      "url": "https://api.slack.com/rtm",
+      "title": "Legacy: Real Time Messaging API | Slack",
+      "level": 1,
+      "total_headings": 21,
+      "headings": [
+        {
+          "text": "Legacy: Real Time Messaging API",
+          "level": 1,
+          "type": "L1"
+        }
+      ],
+      "children": [],
+      "content_preview": "[](https://api.slack.com/)\n\n __\n\n__\n\n[Docs](/docs)\n\n[Tutorials](/tutorials)\n\n[Developer Program](/developer-program)\n\n[Your apps](/apps)\n\n _\n\n_[Slack Platform](/docs)\n\n _\n\n_[Samples& templates](/samples)\n\n _\n\n_[Developer sandboxes](/docs/developer-sandbox)\n\n* * *\n\n[Slack apps](/start/apps/)\n\n _\n\n_[Quickstart: Send a message](/quickstart)\n\n _\n\n_Authentication\n\n[Overview](/authentication)\n\n[Installing with OAuth](/authentication/oauth-v2)\n\n[Token rotation](/authentication/rotation)\n\n[Verifying req",
+      "metadata": {
+        "confidence": 1.0,
+        "format": "markdown",
+        "hierarchy_levels": [
+          1,
+          2,
+          3,
+          4
+        ]
+      }
+    },
+    {
+      "url": "https://api.slack.com/scopes",
+      "title": "Permission scopes | Slack",
+      "level": 1,
+      "total_headings": 2,
+      "headings": [
+        {
+          "text": "Permission scopes",
+          "level": 1,
+          "type": "L1"
+        }
+      ],
+      "children": [],
+      "content_preview": "[](https://api.slack.com/)\n\n __\n\n__\n\n[Docs](/docs)\n\n[Tutorials](/tutorials)\n\n[Developer Program](/developer-program)\n\n[Your apps](/apps)\n\n _\n\n_[Slack Platform](/docs)\n\n _\n\n_[Samples& templates](/samples)\n\n _\n\n_[Developer sandboxes](/docs/developer-sandbox)\n\n* * *\n\n[Slack apps](/start/apps/)\n\n _\n\n_[Quickstart: Send a message](/quickstart)\n\n _\n\n_Authentication\n\n[Overview](/authentication)\n\n[Installing with OAuth](/authentication/oauth-v2)\n\n[Token rotation](/authentication/rotation)\n\n[Verifying req",
+      "metadata": {
+        "confidence": 0.2,
+        "format": "markdown",
+        "hierarchy_levels": [
+          1,
+          2
+        ]
+      }
+    },
+    {
+      "url": "https://api.slack.com/authentication",
+      "title": "Authentication | Slack",
+      "level": 1,
+      "total_headings": 15,
+      "headings": [
+        {
+          "text": "Authentication",
+          "level": 1,
+          "type": "L1"
+        }
+      ],
+      "children": [],
+      "content_preview": "[](https://api.slack.com/)\n\n __\n\n__\n\n[Docs](/docs)\n\n[Tutorials](/tutorials)\n\n[Developer Program](/developer-program)\n\n[Your apps](/apps)\n\n _\n\n_[Slack Platform](/docs)\n\n _\n\n_[Samples& templates](/samples)\n\n _\n\n_[Developer sandboxes](/docs/developer-sandbox)\n\n* * *\n\n[Slack apps](/start/apps/)\n\n _\n\n_[Quickstart: Send a message](/quickstart)\n\n _\n\n_Authentication\n\n[Overview](/authentication)\n\n[Installing with OAuth](/authentication/oauth-v2)\n\n[Token rotation](/authentication/rotation)\n\n[Verifying req",
+      "metadata": {
+        "confidence": 1.0,
+        "format": "markdown",
+        "hierarchy_levels": [
+          1,
+          2,
+          3
+        ]
+      }
+    },
+    {
+      "url": "https://api.slack.com/apps",
+      "title": "Slack API: Applications | Slack",
+      "level": 1,
+      "total_headings": 1,
+      "headings": [
+        {
+          "text": "Your Apps",
+          "level": 1,
+          "type": "L1"
+        }
+      ],
+      "children": [],
+      "content_preview": "[](https://api.slack.com/)\n\n[](https://api.slack.com/search)\n\n[Go to Slack](https://slack.com/signin)\n\n[Documentation](/#read_the_docs) [Tutorials](/tutorials) [Twitter](https://twitter.com/@slackapi)\n\n __Success!\n\n__\n\n# Your Apps\n\nYou'll need to [sign in to your Slack account](https://slack.com/signin) to create an application.\n\nDon't see an app you're looking for? [Sign in to another workspace](https://slack.com/signin).\n\n     * Using Slack\n     * [Product](https://slack.com/is)\n     * [Enterp",
+      "metadata": {
+        "confidence": 0.1,
+        "format": "markdown",
+        "hierarchy_levels": [
+          1
+        ]
+      }
+    },
+    {
+      "url": "https://api.slack.com/tools",
+      "title": "Slack",
+      "level": 1,
+      "total_headings": 1,
+      "headings": [
+        {
+          "text": "Tools built by Slack",
+          "level": 1,
+          "type": "L1"
+        }
+      ],
+      "children": [],
+      "content_preview": "[](https://api.slack.com/)\n\n __\n\n__\n\n[Docs](/docs)\n\n[Tutorials](/tutorials)\n\n[Developer Program](/developer-program)\n\n[Your apps](/apps)\n\n _\n\n_[Slack Platform](/docs)\n\n _\n\n_[Samples& templates](/samples)\n\n _\n\n_[Developer sandboxes](/docs/developer-sandbox)\n\n* * *\n\n[Slack apps](/start/apps/)\n\n _\n\n_[Quickstart: Send a message](/quickstart)\n\n _\n\n_Authentication\n\n[Overview](/authentication)\n\n[Installing with OAuth](/authentication/oauth-v2)\n\n[Token rotation](/authentication/rotation)\n\n[Verifying req",
+      "metadata": {
+        "confidence": 0.1,
+        "format": "markdown",
+        "hierarchy_levels": [
+          1
+        ]
+      }
+    }
+  ]
+}

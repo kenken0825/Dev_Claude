@@ -1,0 +1,292 @@
+---
+title: "n8n Nodes DSL for Automatic Workflow Generation"
+source_url: "https://docs.n8n.io/integrations/builtin/"
+last_updated: "2025-01-07"
+purpose: "Domain-Specific Language for automatic n8n workflow creation"
+content_type: "dsl_specification"
+version: "1.0.0"
+---
+
+# n8n Nodes Domain-Specific Language (DSL)
+
+## Node Categories
+
+### 1. Core Nodes
+```yaml
+core_nodes:
+  data_manipulation:
+    - name: "Code"
+      purpose: "Execute custom JavaScript/Python code"
+      inputs: ["data", "parameters"]
+      outputs: ["transformed_data"]
+      
+    - name: "Filter"
+      purpose: "Filter data based on conditions"
+      inputs: ["data", "condition"]
+      outputs: ["filtered_data"]
+      
+    - name: "Merge"
+      purpose: "Combine data from multiple sources"
+      inputs: ["data_source_1", "data_source_2"]
+      outputs: ["merged_data"]
+      
+    - name: "Split"
+      purpose: "Split data into multiple outputs"
+      inputs: ["data", "split_criteria"]
+      outputs: ["split_data[]"]
+      
+    - name: "Wait"
+      purpose: "Pause workflow execution"
+      inputs: ["duration", "condition"]
+      outputs: ["resumed"]
+      
+  http_operations:
+    - name: "HTTP Request"
+      purpose: "Make HTTP API calls"
+      inputs: ["url", "method", "headers", "body"]
+      outputs: ["response_data", "status_code"]
+      
+    - name: "Webhook"
+      purpose: "Receive HTTP requests"
+      inputs: ["path", "method", "response_mode"]
+      outputs: ["request_data"]
+```
+
+### 2. Action Nodes
+```yaml
+action_nodes:
+  crm:
+    salesforce:
+      operations: ["create", "read", "update", "delete", "query"]
+      auth: "oauth2"
+      objects: ["leads", "contacts", "opportunities", "accounts"]
+      
+    hubspot:
+      operations: ["create", "read", "update", "delete", "search"]
+      auth: "api_key"
+      objects: ["contacts", "companies", "deals", "tickets"]
+      
+  communication:
+    slack:
+      operations: ["send_message", "create_channel", "upload_file", "get_users"]
+      auth: "oauth2"
+      triggers: ["new_message", "reaction_added", "file_shared"]
+      
+    discord:
+      operations: ["send_message", "create_channel", "manage_roles"]
+      auth: "bot_token"
+      triggers: ["message_created", "member_joined"]
+      
+    telegram:
+      operations: ["send_message", "send_photo", "send_document"]
+      auth: "bot_token"
+      triggers: ["message_received", "callback_query"]
+      
+  productivity:
+    notion:
+      operations: ["create_page", "update_page", "query_database"]
+      auth: "oauth2"
+      objects: ["pages", "databases", "blocks"]
+      
+    trello:
+      operations: ["create_card", "move_card", "add_member"]
+      auth: "api_key"
+      objects: ["boards", "lists", "cards"]
+      
+    asana:
+      operations: ["create_task", "update_task", "add_comment"]
+      auth: "oauth2"
+      objects: ["projects", "tasks", "tags"]
+      
+  cloud_services:
+    aws:
+      services: ["s3", "lambda", "dynamodb", "sns"]
+      auth: "access_key"
+      operations: ["upload", "download", "invoke", "publish"]
+      
+    google:
+      services: ["drive", "sheets", "calendar", "gmail"]
+      auth: "oauth2"
+      operations: ["create", "read", "update", "share"]
+      
+    microsoft:
+      services: ["onedrive", "excel", "outlook", "teams"]
+      auth: "oauth2"
+      operations: ["create", "read", "update", "send"]
+```
+
+### 3. Trigger Nodes
+```yaml
+trigger_nodes:
+  webhook_triggers:
+    - name: "Webhook"
+      activation: "url_endpoint"
+      response_modes: ["immediately", "when_last_node_finishes"]
+      
+  scheduled_triggers:
+    - name: "Schedule"
+      activation: "cron_expression"
+      intervals: ["minutes", "hours", "days", "weeks", "custom_cron"]
+      
+  platform_triggers:
+    github:
+      events: ["push", "pull_request", "issue", "release"]
+      auth: "webhook_secret"
+      
+    gmail:
+      events: ["new_email", "label_added"]
+      auth: "oauth2"
+      polling: true
+      
+    google_drive:
+      events: ["file_created", "file_updated", "file_deleted"]
+      auth: "oauth2"
+      polling: true
+```
+
+### 4. AI/Cluster Nodes
+```yaml
+ai_cluster_nodes:
+  agents:
+    - name: "AI Agent"
+      purpose: "Execute complex AI tasks"
+      models: ["gpt-4", "claude", "llama"]
+      capabilities: ["reasoning", "planning", "execution"]
+      
+  language_models:
+    - name: "Chat Model"
+      purpose: "Generate text responses"
+      providers: ["openai", "anthropic", "google"]
+      
+    - name: "Embeddings"
+      purpose: "Convert text to vectors"
+      providers: ["openai", "cohere", "huggingface"]
+      
+  vector_stores:
+    - name: "Vector Store"
+      purpose: "Store and query embeddings"
+      backends: ["pinecone", "weaviate", "qdrant", "memory"]
+      
+  tools:
+    - name: "Text Splitter"
+      purpose: "Split text for processing"
+      methods: ["character", "token", "recursive"]
+      
+    - name: "Document Loader"
+      purpose: "Load various document formats"
+      formats: ["pdf", "docx", "html", "markdown"]
+```
+
+## Workflow Patterns
+
+### 1. Basic Patterns
+```yaml
+patterns:
+  sequential:
+    description: "Linear execution flow"
+    structure: "node1 -> node2 -> node3"
+    
+  conditional:
+    description: "Branching based on conditions"
+    structure: |
+      condition_node
+        ├── true_branch
+        └── false_branch
+        
+  parallel:
+    description: "Concurrent execution"
+    structure: |
+      split_node
+        ├── branch1
+        ├── branch2
+        └── branch3
+      merge_node
+      
+  loop:
+    description: "Iterative processing"
+    structure: "start -> process -> condition -> [loop/exit]"
+```
+
+### 2. Integration Patterns
+```yaml
+integration_patterns:
+  webhook_to_action:
+    trigger: "webhook"
+    process: ["validate", "transform", "action"]
+    response: "immediate"
+    
+  scheduled_sync:
+    trigger: "schedule"
+    process: ["fetch_source", "transform", "update_target"]
+    error_handling: "retry_with_backoff"
+    
+  event_driven:
+    trigger: "platform_event"
+    process: ["filter", "enrich", "distribute"]
+    acknowledgment: "async"
+```
+
+## Authentication Methods
+```yaml
+authentication:
+  oauth2:
+    flow: "authorization_code"
+    required: ["client_id", "client_secret", "redirect_uri"]
+    
+  api_key:
+    location: ["header", "query", "body"]
+    format: "Bearer {token}"
+    
+  basic_auth:
+    required: ["username", "password"]
+    encoding: "base64"
+    
+  custom:
+    implementation: "node_specific"
+    validation: "required"
+```
+
+## Error Handling
+```yaml
+error_handling:
+  strategies:
+    retry:
+      max_attempts: 3
+      backoff: "exponential"
+      
+    fallback:
+      alternative_path: true
+      default_value: "configurable"
+      
+    alert:
+      notification_channels: ["email", "slack", "webhook"]
+      
+    continue:
+      skip_failed: true
+      log_error: true
+```
+
+## Workflow Generation Rules
+```yaml
+generation_rules:
+  node_selection:
+    - match_capability_to_requirement
+    - prefer_native_integration_over_http
+    - minimize_node_count
+    
+  connection_logic:
+    - validate_data_types
+    - ensure_required_fields
+    - handle_optional_parameters
+    
+  optimization:
+    - batch_operations_when_possible
+    - use_caching_for_repeated_calls
+    - implement_error_boundaries
+    
+  best_practices:
+    - always_handle_errors
+    - log_critical_operations
+    - implement_monitoring_hooks
+    - use_environment_variables_for_secrets
+```

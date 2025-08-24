@@ -1,0 +1,89 @@
+{
+  "name": "my-project",
+  "version": "1.0.0",
+  "description": "YAML Context Engineering Project - my-project",
+  "mcp": {
+    "servers": {
+      "yaml-context": {
+        "command": "python",
+        "args": ["-m", "yaml_context_engineering.main"],
+        "cwd": "../",
+        "env": {
+          "MCP_LOG_LEVEL": "INFO",
+          "MCP_OUTPUT_DIRECTORY": "contexts"
+        }
+      }
+    }
+  },
+  "tools": {
+    "enabled": [
+      "web_content_fetcher",
+      "llm_structure_extractor",
+      "url_discovery_engine",
+      "file_system_manager",
+      "ldd_manager"
+    ]
+  },
+  "extraction": {
+    "default_config": {
+      "output_base_directory": "contexts",
+      "crawling_config": {
+        "max_crawl_depth": 3,
+        "max_pages_per_domain": 100,
+        "crawl_delay_seconds": 1.0
+      },
+      "content_extraction_config": {
+        "context_granularity": "L1_L2_L3",
+        "content_summarization": "detailed",
+        "language_detection": true,
+        "extract_metadata": true
+      }
+    }
+  },
+  "ldd": {
+    "enabled": true,
+    "log_directory": "contexts/logs",
+    "memory_bank": "contexts/@memory-bank.md"
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "web_content_fetcher",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo '[$(date \"+%Y-%m-%d %H:%M:%S\")] Fetching: $URL' >> contexts/logs/fetch.log"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "file_system_manager",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo '[$(date \"+%Y-%m-%d %H:%M:%S\")] Saved context: $FILE_PATH' >> contexts/logs/save.log"
+          }
+        ]
+      }
+    ]
+  },
+  "slash_commands": {
+    "extract": {
+      "description": "Extract context from URL",
+      "usage": "/extract <url>",
+      "enabled": true
+    },
+    "analyze": {
+      "description": "Analyze extracted contexts",
+      "usage": "/analyze [context-name]",
+      "enabled": true
+    },
+    "report": {
+      "description": "Generate extraction report",
+      "usage": "/report",
+      "enabled": true
+    }
+  }
+}

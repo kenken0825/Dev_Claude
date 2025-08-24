@@ -1,0 +1,214 @@
+---
+# YAML Context Engineering - Source Configuration
+# Define all documentation sources and extraction rules
+
+sources:
+  slack-api:
+    name: "Slack API Documentation"
+    primary_urls:
+      - https://api.slack.com/docs
+      - https://api.slack.com/methods
+      - https://api.slack.com/reference
+      - https://api.slack.com/apis
+      - https://api.slack.com/events-api
+      - https://api.slack.com/rtm
+      - https://api.slack.com/scopes
+      - https://api.slack.com/authentication
+      - https://api.slack.com/apps
+      - https://api.slack.com/tools
+    extraction_config:
+      max_depth: 4
+      rate_limit: 1.0  # seconds between requests
+      timeout: 30
+      patterns:
+        include:
+          - "/docs"
+          - "/methods"
+          - "/reference"
+          - "/events"
+          - "/authentication"
+        exclude:
+          - "/changelog"
+          - "/blog"
+          - "/community"
+    output:
+      format: ["markdown", "dsl", "json"]
+      generate_manual: true
+      generate_index: true
+    
+  aws-docs:
+    name: "AWS Documentation"
+    primary_urls:
+      - https://docs.aws.amazon.com/
+      - https://docs.aws.amazon.com/lambda/
+      - https://docs.aws.amazon.com/s3/
+      - https://docs.aws.amazon.com/ec2/
+      - https://docs.aws.amazon.com/dynamodb/
+    extraction_config:
+      max_depth: 3
+      rate_limit: 2.0
+      timeout: 45
+      patterns:
+        include:
+          - "/latest/dg/"
+          - "/latest/api/"
+          - "/latest/userguide/"
+        exclude:
+          - "/archives/"
+          - "/pdfs/"
+    output:
+      format: ["markdown", "dsl", "json"]
+      generate_manual: true
+      generate_index: true
+  
+  github-api:
+    name: "GitHub API Documentation"
+    primary_urls:
+      - https://docs.github.com/rest
+      - https://docs.github.com/graphql
+      - https://docs.github.com/webhooks
+      - https://docs.github.com/apps
+    extraction_config:
+      max_depth: 3
+      rate_limit: 1.5
+      timeout: 30
+      patterns:
+        include:
+          - "/rest/reference"
+          - "/graphql/reference"
+          - "/webhooks/events"
+          - "/apps/building"
+        exclude:
+          - "/enterprise/"
+          - "/discussions/"
+    output:
+      format: ["markdown", "dsl", "json"]
+      generate_manual: true
+      generate_index: true
+  
+  openai-api:
+    name: "OpenAI API Documentation"
+    primary_urls:
+      - https://platform.openai.com/docs
+      - https://platform.openai.com/docs/api-reference
+      - https://platform.openai.com/docs/guides
+      - https://platform.openai.com/docs/models
+    extraction_config:
+      max_depth: 3
+      rate_limit: 1.0
+      timeout: 30
+      patterns:
+        include:
+          - "/docs/"
+          - "/api-reference/"
+          - "/guides/"
+        exclude:
+          - "/playground"
+          - "/examples"
+    output:
+      format: ["markdown", "dsl", "json"]
+      generate_manual: true
+      generate_index: true
+  
+  anthropic-claude:
+    name: "Anthropic Claude Documentation"
+    primary_urls:
+      - https://docs.anthropic.com/
+      - https://docs.anthropic.com/claude/reference
+      - https://docs.anthropic.com/claude/docs
+    extraction_config:
+      max_depth: 3
+      rate_limit: 1.0
+      timeout: 30
+      patterns:
+        include:
+          - "/claude/"
+          - "/reference/"
+          - "/docs/"
+        exclude:
+          - "/blog/"
+          - "/research/"
+    output:
+      format: ["markdown", "dsl", "json"]
+      generate_manual: true
+      generate_index: true
+  
+  stripe-api:
+    name: "Stripe API Documentation"
+    primary_urls:
+      - https://stripe.com/docs/api
+      - https://stripe.com/docs/payments
+      - https://stripe.com/docs/billing
+      - https://stripe.com/docs/connect
+    extraction_config:
+      max_depth: 4
+      rate_limit: 1.5
+      timeout: 30
+      patterns:
+        include:
+          - "/docs/api/"
+          - "/docs/payments/"
+          - "/docs/billing/"
+        exclude:
+          - "/blog/"
+          - "/customers/"
+    output:
+      format: ["markdown", "dsl", "json"]
+      generate_manual: true
+      generate_index: true
+
+# Global settings
+global:
+  default_depth: 3
+  default_rate_limit: 1.0
+  default_timeout: 30
+  user_agent: "YAML-Context-Engineering-Agent/1.0"
+  cache_duration: 86400  # 24 hours in seconds
+  max_concurrent_requests: 3
+  retry_attempts: 3
+  retry_delay: 5  # seconds
+
+# Extraction rules
+extraction_rules:
+  heading_detection:
+    markdown:
+      - pattern: "^#{1,6}\\s+"
+      - pattern: "^={3,}$"
+      - pattern: "^-{3,}$"
+    html:
+      - tags: ["h1", "h2", "h3", "h4", "h5", "h6"]
+      - classes: ["heading", "title", "header"]
+  
+  content_filters:
+    exclude_selectors:
+      - ".navigation"
+      - ".sidebar"
+      - ".footer"
+      - ".advertisement"
+      - "#comments"
+    include_selectors:
+      - "main"
+      - "article"
+      - ".content"
+      - ".documentation"
+  
+  url_patterns:
+    api_endpoints:
+      - "/api/"
+      - "/reference/"
+      - "/docs/"
+    guides:
+      - "/guides/"
+      - "/tutorials/"
+      - "/examples/"
+    changelog:
+      - "/changelog/"
+      - "/releases/"
+      - "/updates/"
+
+# Output templates
+templates:
+  dsl: "templates/dsl_template.txt"
+  manual: "templates/manual_template.md"
+  manifest: "templates/context_template.yaml"
+---

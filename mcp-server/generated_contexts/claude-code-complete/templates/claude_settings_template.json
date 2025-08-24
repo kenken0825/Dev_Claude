@@ -1,0 +1,74 @@
+---
+title: Claude Code Settings Template
+source_url: ''
+last_updated: '2025-08-10T09:34:33.669023Z'
+content_type: documentation
+language: ja
+extraction_confidence: 0.0
+agent_version: 1.0.0
+extracted_by: YAML Context Engineering Agent
+extraction_timestamp: '2025-08-10T09:34:33.669027Z'
+hierarchy_levels: []
+related_sources: []
+tags: []
+---
+
+{
+  "version": "1.0.0",
+  "generated_from_schema": "1.0.0",
+  "claude_code": {
+    "api_key": "${ANTHROPIC_API_KEY}",
+    "model": "claude-3-sonnet-20240229",
+    "max_tokens": 4096,
+    "temperature": 0.7
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "prettier --write $FILE_PATH"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo 'File modified: $FILE_PATH' >> ~/.claude/changes.log"
+          }
+        ]
+      }
+    ]
+  },
+  "slash_commands": {
+    "/help": {
+      "description": "Show help information",
+      "action": "show_help"
+    },
+    "/clear": {
+      "description": "Clear conversation history",
+      "action": "clear_history"
+    },
+    "/config": {
+      "description": "Show configuration",
+      "action": "show_config"
+    }
+  },
+  "ui_preferences": {
+    "theme": "auto",
+    "font_size": "medium",
+    "show_line_numbers": true,
+    "enable_autocomplete": true
+  },
+  "performance": {
+    "cache_enabled": true,
+    "cache_ttl": 3600,
+    "max_context_size": 100000
+  }
+}

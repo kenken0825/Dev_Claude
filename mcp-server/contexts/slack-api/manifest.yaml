@@ -1,0 +1,53 @@
+---
+context_name: "Slack API Documentation"
+version: "1.0.0"
+source_url: "https://api.slack.com/docs"
+extraction_date: "2025-08-07"
+generator: "YAML Context Engineering Agent"
+metadata:
+  total_urls: 13
+  max_depth: 4
+  primary_sections: 10
+  confidence_avg: 0.65
+  language: "en"
+  category: "API Documentation"
+  extraction_time: "12 seconds"
+tags:
+  - api
+  - slack
+  - messaging
+  - collaboration
+  - events-api
+  - web-api
+  - rtm-api
+  - authentication
+  - oauth
+files:
+  raw:
+    - slack_api_docs.md
+    - slack_api_manual.md
+    - slack_api_structure.json
+  dsl:
+    - slack_api_dsl.txt
+    - SLACK_API_DSL_COMPLETE.md
+  manual:
+    - slack_api_manual.md
+coverage:
+  high_confidence:
+    - Events API (1.00)
+    - RTM API (1.00)
+    - Authentication (1.00)
+    - Developer Sandboxes (1.00)
+  low_confidence:
+    - Web API Methods (0.20)
+    - Permission Scopes (0.20)
+    - Applications (0.10)
+    - Tools (0.10)
+dependencies:
+  - events-api
+  - web-api
+  - rtm-api
+  - oauth-2.0
+  - block-kit
+  - bolt-framework
+---

@@ -1,0 +1,105 @@
+---
+# n8n Documentation Context Manifest
+# Purpose: Enable automatic workflow generation from natural language
+
+metadata:
+  name: "n8n-docs"
+  version: "1.0.0"
+  description: "Comprehensive n8n documentation context for automatic workflow generation"
+  created: "2025-01-07"
+  last_updated: "2025-01-07"
+  maintainer: "YAML Context Engineering Agent"
+  
+sources:
+  primary:
+    - url: "https://docs.n8n.io/"
+      type: "documentation"
+      status: "active"
+      
+  secondary:
+    - url: "https://docs.n8n.io/integrations/builtin/"
+      type: "node_reference"
+      status: "active"
+      
+extraction_config:
+  hierarchy_levels: ["L1", "L2", "L3"]
+  content_types:
+    - "structure"
+    - "dsl"
+    - "patterns"
+    - "examples"
+    
+  extraction_methods:
+    - "web_scraping"
+    - "llm_analysis"
+    - "pattern_recognition"
+    
+files:
+  raw:
+    - path: "raw/n8n_docs_structure.yaml"
+      description: "Complete documentation hierarchy"
+      format: "yaml"
+      
+  dsl:
+    - path: "dsl/n8n_nodes_dsl.yaml"
+      description: "Domain-specific language for workflow generation"
+      format: "yaml"
+      
+  manual:
+    - path: "manual/workflow_generation_guide.md"
+      description: "Guide for automatic workflow creation"
+      format: "markdown"
+      status: "pending"
+      
+  cache:
+    - path: "cache/"
+      description: "Cached API responses and processed data"
+      format: "various"
+      
+capabilities:
+  workflow_generation:
+    supported: true
+    features:
+      - "Natural language to workflow conversion"
+      - "Node selection based on requirements"
+      - "Automatic credential configuration"
+      - "Error handling implementation"
+      - "Optimization suggestions"
+      
+  node_discovery:
+    total_nodes: "400+"
+    categories:
+      - "Core utilities"
+      - "Third-party integrations"
+      - "AI/ML capabilities"
+      - "Custom code execution"
+      
+  pattern_library:
+    - "Sequential processing"
+    - "Conditional branching"
+    - "Parallel execution"
+    - "Loop iterations"
+    - "Error recovery"
+    - "Data transformation"
+    
+usage_examples:
+  basic_workflow:
+    description: "Create a simple webhook to Slack notification"
+    input: "When webhook receives data, send to Slack"
+    output: "Webhook -> Transform -> Slack"
+    
+  complex_workflow:
+    description: "Multi-service integration with error handling"
+    input: "Sync data from Google Sheets to Notion with validation"
+    output: "Schedule -> Sheets -> Validate -> Transform -> Notion -> Error Handler"
+    
+quality_metrics:
+  completeness: 0.85
+  accuracy: 0.95
+  last_validation: "2025-01-07"
+  
+next_steps:
+  - "Create workflow generation guide"
+  - "Add more integration examples"
+  - "Implement caching strategy"
+  - "Build test suite for generation"

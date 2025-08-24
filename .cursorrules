@@ -1,7 +1,12 @@
-# Cursor IDE Rules for YAML Context Engineering Agent Project
+# Cursor IDE Rules for YAML Context Engineering Agent Project 🔔
+
+## Current Active Task: N8N Node Specifications Extraction
+- **Goal**: Extract comprehensive specs for top 20 n8n nodes (85% coverage)
+- **Phase**: Research and Documentation
+- **Status**: In Progress
 
 ## Project Overview
-This is the YAML Context Engineering Agent project - an MCP server that extracts hierarchical context from various sources and generates YAML-formatted documentation.
+This is the YAML Context Engineering Agent project - an MCP server that extracts hierarchical context from various sources and generates YAML-formatted documentation. Currently extending to include N8N node specification extraction capabilities.
 
 ## Code Style Guidelines
 

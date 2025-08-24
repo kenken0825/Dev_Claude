@@ -1,0 +1,169 @@
+{
+  "version": "1.0.0",
+  "generated_at": "2025-08-10T18:34:33.665756",
+  "schema_type": "claude-code-manual",
+  "metadata": {
+    "title": "Claude Code Complete Manual",
+    "description": "完全なClaude Codeリファレンスマニュアル",
+    "language": "ja",
+    "authors": [
+      "YAML Context Engineering Agent"
+    ],
+    "tags": [
+      "claude-code",
+      "ai",
+      "programming",
+      "documentation"
+    ]
+  },
+  "structure": {
+    "sections": [
+      {
+        "id": "getting-started",
+        "title": "はじめに",
+        "priority": 1,
+        "content_files": [
+          "quickstart_complete.md"
+        ],
+        "subsections": [
+          {
+            "id": "installation",
+            "title": "インストール",
+            "commands": [
+              "npm install -g @anthropic-ai/claude-code",
+              "curl -fsSL claude.ai/install.sh | bash"
+            ]
+          },
+          {
+            "id": "first-steps",
+            "title": "最初のステップ",
+            "commands": [
+              "claude",
+              "claude --help"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "commands",
+        "title": "コマンドリファレンス",
+        "priority": 2,
+        "content_files": [
+          "cli-reference_complete.md"
+        ],
+        "subsections": [
+          {
+            "id": "basic-commands",
+            "title": "基本コマンド",
+            "commands": [
+              "claude",
+              "claude \"query\"",
+              "claude -p \"query\"",
+              "claude -c",
+              "claude -r"
+            ]
+          },
+          {
+            "id": "advanced-commands",
+            "title": "上級コマンド",
+            "commands": [
+              "claude commit",
+              "claude --resume",
+              "claude -c -p \"query\""
+            ]
+          }
+        ]
+      },
+      {
+        "id": "slash-commands",
+        "title": "スラッシュコマンド",
+        "priority": 3,
+        "content_files": [
+          "slash-commands_complete.md"
+        ],
+        "subsections": [
+          {
+            "id": "session-management",
+            "title": "セッション管理",
+            "commands": [
+              "/clear",
+              "/exit",
+              "/help"
+            ]
+          },
+          {
+            "id": "custom-commands",
+            "title": "カスタムコマンド",
+            "commands": [
+              "/setup",
+              "/config",
+              "/debug"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "troubleshooting",
+        "title": "トラブルシューティング",
+        "priority": 4,
+        "content_files": [],
+        "subsections": [
+          {
+            "id": "common-errors",
+            "title": "よくあるエラー",
+            "solutions": {
+              "認証エラー": "APIキーを確認してください",
+              "メモリ不足": "/clearコマンドを使用",
+              "接続エラー": "ネットワーク設定を確認"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "navigation": {
+    "quick_links": [
+      {
+        "label": "クイックスタート",
+        "href": "#getting-started"
+      },
+      {
+        "label": "コマンド一覧",
+        "href": "#commands"
+      },
+      {
+        "label": "トラブルシューティング",
+        "href": "#troubleshooting"
+      }
+    ],
+    "search_keywords": [
+      "claude",
+      "code",
+      "ai",
+      "programming",
+      "command",
+      "install",
+      "setup",
+      "git",
+      "commit",
+      "debug"
+    ]
+  },
+  "interactive_features": {
+    "command_palette": true,
+    "search_enabled": true,
+    "copy_to_clipboard": true,
+    "dark_mode": true,
+    "keyboard_shortcuts": {
+      "search": "Ctrl+K",
+      "toggle_dark": "Ctrl+D",
+      "copy": "Ctrl+C"
+    }
+  },
+  "statistics": {
+    "total_commands": 20,
+    "total_sections": 4,
+    "total_pages": 3,
+    "last_updated": "2025-08-10T18:34:33.665770"
+  }
+}
